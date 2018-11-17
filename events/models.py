@@ -35,14 +35,17 @@ class Event(models.Model):
     )
     
     host = models.ForeignKey(Admin, on_delete=models.CASCADE, related_name='host')
-    time = models.DateTimeField(unique=True)
-    location = models.CharField(max_length=100, unique=True)
+    time = models.DateTimeField()
+    location = models.CharField(max_length=100)
     name = models.CharField(max_length=20)
     category = models.CharField(max_length=15, choices=CATEGORIES)
     desc = models.TextField()
     contact_phone = models.CharField(max_length=20)
     contact_email = models.EmailField()
     commenters = models.ManyToManyField(User, through='Comment')
+
+    class Meta:
+        unique_together = ('time', 'location')
 
 class Comment(models.Model):
     RATINGS = (
