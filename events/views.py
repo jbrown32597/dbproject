@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic import TemplateView, ListView
+from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .forms import MyUserCreationForm
+from .models import University
 
 # Create your views here.
 class WelcomeView(TemplateView):
@@ -20,4 +21,21 @@ class RegistrationView(FormView):
         raw_password = form.cleaned_data.get('password1')
         user = authenticate(username=username, password=raw_password)
         login(self.request, user)
-        return redirect('events:welcome')
+        return redirect('events:home')
+
+class HomeView(LoginRequiredMixin, TemplateView):
+    template_name = 'events/home.html'
+
+class UniversityList(LoginRequiredMixin, ListView):
+    model = University
+    template_name = 'events/listUniversities.html'
+
+class AddUniversity(LoginRequiredMixin, CreateView):
+    model = University
+    template_name = 'events/addUniversity.html'
+    fields = ['name', 'location', 'desc', 'num_students']
+
+class EditUniversity(LoginRequiredMixin, UpdateView):
+    model = University
+    template_name = 'events/editUniversity.html'
+    fields = ['name', 'location', 'desc', 'num_students']

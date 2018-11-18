@@ -1,21 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         {% load static %}
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" charset="utf-8">
+
+        <style>
+        body {
+          background-color: #BA9B37;
+        }
+        </style>
         {% block head %}
         <title>Base</title>
         {% endblock %}
     </head>
     <body>
-        <br>
-        <nav class="navbar navbar-light bg-light">
+        <nav class="navbar navbar-light bg-light rounded">
           <span class="navbar-brand">
-            <img src="{% static 'events/images/UCFLogo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            <img src="{% static 'events/images/UCFLogo.png' %}" width="30" height="30" class="d-inline-block align-top rounded" alt="">
             Events!
           </span>
+          {% if user.is_authenticated %}
+          <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="{% url 'events:home' %}">Home</a>
+          </div>
+          <div class="navbar-nav navbar-right">
+            <a class="nav-item nav-link" href="{% url 'events:logout' %}">Logout</a>
+          </div>
+          {% endif %}
         </nav>
         {% block body %}
             <h1>Base</h1>
