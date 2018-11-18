@@ -9,22 +9,19 @@ class University(models.Model):
     num_students = models.IntegerField()
 
 class User(AbstractUser):
-    university = models.ForeignKey(University, on_delete=models.CASCADE, default='')
-
-class Admin(User):
-    pass
-
-class SuperAdmin(User):
-    pass
+    university = models.ForeignKey(University, on_delete=models.CASCADE, default='', null=True)
+    rsos = models.ManyToManyField('RSO')
+    name = models.CharField(max_length=20)
+    email = models.EmailField()
+    is_student = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    is_superadmin = models.BooleanField(default=False)
 
 class RSO(models.Model):
     name = models.CharField(max_length=20)
     num_students = models.IntegerField()
     university = models.ForeignKey(University, on_delete=models.CASCADE, default='')
-    admin = models.ForeignKey(Admin, on_delete=models.CASCADE)
-
-class Student(User):
-    rsos = models.ManyToManyField(RSO)
+    admin = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Event(models.Model):
     CATEGORIES = (
@@ -34,7 +31,7 @@ class Event(models.Model):
         ('Fun', 'Fun'),
     )
     
-    host = models.ForeignKey(Admin, on_delete=models.CASCADE, related_name='host')
+    host = models.ForeignKey(User, on_delete=models.CASCADE, related_name='host')
     time = models.DateTimeField()
     location = models.CharField(max_length=100)
     name = models.CharField(max_length=20)
@@ -43,6 +40,10 @@ class Event(models.Model):
     contact_phone = models.CharField(max_length=20)
     contact_email = models.EmailField()
     commenters = models.ManyToManyField(User, through='Comment')
+    host_rso = models.ForeignKey(RSO, on_delete=models.CASCADE, default='')
+    is_rso = models.BooleanField(default=False)
+    is_private = models.BooleanField(default=False)
+    is_public = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ('time', 'location')
@@ -62,12 +63,3 @@ class Comment(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-
-class RSOEvent(Event):
-    belongs_to = models.ForeignKey(RSO, on_delete=models.CASCADE)
-
-class PrivateEvent(Event):
-    pass
-
-class PublicEvent(Event):
-    pass
