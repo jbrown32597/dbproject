@@ -7,5 +7,8 @@
 {% block body %}
 <br><br><br>
 <h1 class="display-4 text-center">Welcome to the College Event Website!</h1>
-
+<main class="inner cover">    
+    <a href="{% url 'events:login' %}" class="btn btn-lg btn-secondary">Login</a>
+    <a href="{% url 'events:register' %}" class="btn btn-lg btn-secondary">Register</a>
+</main>
 {% endblock%}

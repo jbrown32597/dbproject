@@ -9,7 +9,7 @@
     <form action="{% url 'events:register' %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <button class="btn btn-lg btn-secondary" type="submit">Submit</button>
     </form>
 </div>
 {% endblock %}
