@@ -7,7 +7,7 @@
 {% block body %}
 <ul>
     {% for university in object_list %}
-        <li><a href="{% url 'events:editUniversity' university.pk %}">{{ university.name }}</a></li>
+        <li><a href="{% url 'events:viewUniversity' university.pk %}">{{ university.name }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}

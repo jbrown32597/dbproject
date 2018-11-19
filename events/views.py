@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .forms import MyUserCreationForm
@@ -38,6 +38,10 @@ class AddUniversity(UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.perm_level == 'Superadmin'
+
+class ViewUniversity(LoginRequiredMixin, DetailView):
+    model = University
+    template_name = 'events/viewUniversity.html'
 
 class EditUniversity(UserPassesTestMixin, UpdateView):
     model = University
