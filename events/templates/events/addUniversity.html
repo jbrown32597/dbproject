@@ -6,9 +6,30 @@
 
 {% block body %}
 <div>
-    <form action="{% url 'events:addUniversity' %}" method="POST">
+    <form action="{% url 'events:addUniversity' %}" method="POST" class="text-center">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.name.errors }}
+            {{ form.name.label_tag }}
+            {{ form.name }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.location.errors }}
+            {{ form.location.label_tag }}
+            {{ form.location }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.desc.errors }}
+            {{ form.desc.label_tag }}
+            {{ form.desc }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.num_students.errors }}
+            {{ form.num_students.label_tag }}
+            {{ form.num_students }}
+        </div>
+
         <button type="submit" class="btn btn-lg btn-secondary">Submit</button>
         <a href="{% url 'events:universities' %}" class="btn btn-lg btn-secondary">Back</a>
     </form>

@@ -5,18 +5,23 @@
 {% endblock %}
 
 {% block body %}
-<form method="post" action="{% url 'events:login' %}">
+<h1 class="display-3 text-center">Login</h1>
+<br><br><br>
+<form class="text-center" method="post" action="{% url 'events:login' %}">
     {% csrf_token %}
-    <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
-    </table>
-    <button class="btn btn-lg btn-secondary" type="submit">Login</button>
+    {{ form.non_field_errors }}
+    <div class="fieldWrapper">
+        {{ form.username.errors }}
+        {{ form.username.label_tag }}
+        {{ form.username }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.password.errors }}
+        {{ form.password.label_tag }}
+        {{ form.password }}
+    </div>
+    <br>
+    <button class="btn btn-lg btn-secondary col-auto" type="submit">Login</button>
+    <a href="{% url 'events:welcome' %}" class="btn btn-lg btn-secondary col-auto">Back</a> 
 </form>
 {% endblock %}
