@@ -24,6 +24,7 @@
           {% if user.is_authenticated %}
           <div class="navbar-nav mr-auto" id="navbarNavAltMarkup">
             <a class="nav-item nav-link" href="{% url 'events:home' %}">Home</a>
+            <a class="nav-item nav-link" href="{% url 'events:viewUser' user.pk %}">Profile</a>
             <a class="nav-item nav-link" href="{% url 'events:universities' %}">Universities</a>
           </div>
           <div class="navbar-nav navbar-right">

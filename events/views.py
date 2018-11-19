@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .forms import MyUserCreationForm
-from .models import University
+from .models import University, User
 
 # Create your views here.
 class WelcomeView(TemplateView):
@@ -26,6 +26,10 @@ class RegistrationView(FormView):
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'events/home.html'
+
+class ViewUser(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'events/viewUser.html'
 
 class UniversityList(LoginRequiredMixin, ListView):
     model = University

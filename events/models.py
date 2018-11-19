@@ -28,11 +28,17 @@ class User(AbstractUser):
     email = models.EmailField()
     perm_level = models.CharField(max_length=10, choices=PERM_LEVELS, null=True)
 
+    def __str__(self):
+        return self.name
+
 class RSO(models.Model):
     name = models.CharField(max_length=20)
     num_students = models.IntegerField()
     university = models.ForeignKey(University, on_delete=models.CASCADE, default='')
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 class Event(models.Model):
     CATEGORIES = (
