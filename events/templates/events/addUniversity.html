@@ -9,7 +9,8 @@
     <form action="{% url 'events:addUniversity' %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <button type="submit" class="btn btn-lg btn-secondary">Submit</button>
+        <a href="{% url 'events:universities' %}" class="btn btn-lg btn-secondary">Back</a>
     </form>
 </div>
 {% endblock %}
