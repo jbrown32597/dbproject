@@ -16,14 +16,15 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-light bg-light rounded">
+        <nav class="navbar navbar-expand navbar-dark bg-dark rounded">
           <span class="navbar-brand">
             <img src="{% static 'events/images/UCFLogo.png' %}" width="30" height="30" class="d-inline-block align-top rounded" alt="">
             Events!
           </span>
           {% if user.is_authenticated %}
-          <div class="navbar-nav mr-auto">
+          <div class="navbar-nav mr-auto" id="navbarNavAltMarkup">
             <a class="nav-item nav-link" href="{% url 'events:home' %}">Home</a>
+            <a class="nav-item nav-link" href="{% url 'events:universities' %}">Universities</a>
           </div>
           <div class="navbar-nav navbar-right">
             <a class="nav-item nav-link" href="{% url 'events:logout' %}">Logout</a>
@@ -31,7 +32,7 @@
           {% endif %}
         </nav>
         {% block body %}
-            <h1>Base</h1>
+            <h1>:3</h1>
         {% endblock %}
     </body>
     

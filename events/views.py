@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
@@ -30,12 +31,18 @@ class UniversityList(LoginRequiredMixin, ListView):
     model = University
     template_name = 'events/listUniversities.html'
 
-class AddUniversity(LoginRequiredMixin, CreateView):
+class AddUniversity(UserPassesTestMixin, CreateView):
     model = University
     template_name = 'events/addUniversity.html'
     fields = ['name', 'location', 'desc', 'num_students']
 
-class EditUniversity(LoginRequiredMixin, UpdateView):
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.perm_level == 'Superadmin'
+
+class EditUniversity(UserPassesTestMixin, UpdateView):
     model = University
     template_name = 'events/editUniversity.html'
     fields = ['name', 'location', 'desc', 'num_students']
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.perm_level == 'Superadmin'
