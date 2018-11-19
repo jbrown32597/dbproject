@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>User Profile</title>
+{% endblock %}
+
+{% block body %}
+<h1 class="display-3 text-center">Your Information</h1>
+<br><br><br>
+<div class="container-fluid text-center col-auto">
+    <p class="h3">Name: {{ user.name }}</p>
+    <p class="h3">University: {{ user.university }}</p>
+    <p class="h3">Email: {{ user.email }}</p>
+    <p class="h3">RSOs:</p>
+    {% for rso in user.rsos.all %}
+        <p class="h4">{{ rso }}</p>
+    {% endfor %}
+</div>
+{% endblock%}
