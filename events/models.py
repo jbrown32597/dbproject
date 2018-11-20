@@ -66,8 +66,14 @@ class Event(models.Model):
     contact_phone = models.CharField(max_length=20)
     contact_email = models.EmailField()
     commenters = models.ManyToManyField(User, through='Comment')
-    host_rso = models.ForeignKey(RSO, on_delete=models.CASCADE, default='')
+    host_rso = models.ForeignKey(RSO, on_delete=models.CASCADE, default='', blank=True, null=True)
     event_type = models.CharField(max_length=7, choices=EVENT_TYPES, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('events:viewEvent', kwargs={'pk': self.pk})
 
     class Meta:
         unique_together = ('time', 'location')

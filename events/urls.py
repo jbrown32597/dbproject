@@ -15,4 +15,7 @@ urlpatterns = [
     path('addUniversity/', views.AddUniversity.as_view(), name='addUniversity'),
     path('viewUniversity/<int:pk>/', views.ViewUniversity.as_view(), name='viewUniversity'),
     path('editUniversity/<int:pk>/', views.EditUniversity.as_view(), name='editUniversity'),
+    path('addEvent/', views.AddEvent.as_view(), name='addEvent'),
+    path('viewEvent/<int:pk>/', views.ViewEvent.as_view(), name='viewEvent'),
+    path('editEvent/<int:pk>/', views.EditEvent.as_view(), name='editEvent'),
 ]

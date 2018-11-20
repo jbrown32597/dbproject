@@ -6,8 +6,8 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from django import forms
-from .forms import MyUserCreationForm
-from .models import University, User
+from .forms import MyUserCreationForm, AddEventForm
+from .models import University, User, Event
 
 # Create your views here.
 class WelcomeView(TemplateView):
@@ -25,7 +25,8 @@ class RegistrationView(FormView):
         login(self.request, user)
         return redirect('events:home')
 
-class HomeView(LoginRequiredMixin, TemplateView):
+class HomeView(LoginRequiredMixin, ListView):
+    model = Event
     template_name = 'events/home.html'
 
 class ViewUser(LoginRequiredMixin, DetailView):
@@ -36,7 +37,6 @@ class EditUser(LoginRequiredMixin, UpdateView):
     model = User
     template_name = 'events/editUser.html'
     fields = ['name', 'university', 'email', 'rsos']
-    # success_url = reverse_lazy('events:viewUser')
 
 class UniversityList(LoginRequiredMixin, ListView):
     model = University
@@ -61,3 +61,23 @@ class EditUniversity(UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.perm_level == 'Superadmin'
+
+class AddEvent(UserPassesTestMixin, CreateView):
+    model = Event
+    template_name = 'events/addEvent.html'
+    form_class = AddEventForm
+
+    def test_func(self):
+        return self.request.user.is_authenticated and (self.request.user.perm_level == 'Admin' or self.request.user.perm_level == 'Superadmin')
+
+class ViewEvent(LoginRequiredMixin, DetailView):
+    model = Event
+    template_name = 'events/viewEvent.html'
+
+class EditEvent(UserPassesTestMixin, UpdateView):
+    model = Event
+    template_name = 'events/editEvent.html'
+    fields = ['host', 'time', 'location', 'name', 'category', 'desc', 'contact_phone', 'contact_email', 'host_rso', 'event_type']
+
+    def test_func(self):
+        return self.request.user.is_authenticated and (self.request.user.perm_level == 'Admin' or self.request.user.perm_level == 'Superadmin')

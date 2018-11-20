@@ -7,7 +7,7 @@
 {% block body %}
 <h1 class="display-3 text-center">Add University</h1>
 <br>
-<div class="container text-center">
+<div class="container-fluid text-center">
     <form action="{% url 'events:addUniversity' %}" method="POST">
         {% csrf_token %}
         {{ form.non_field_errors }}

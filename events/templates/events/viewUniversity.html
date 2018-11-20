@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>{{ university.name }}</title>
+<title>University Profile</title>
 {% endblock %}
 
 {% block body %}
-<h1>{{ university.name }}</h1>
-{% endblock %}
+<h1 class="display-3 text-center">University Information</h1>
+<br><br><br>
+<div class="container-fluid text-center col-auto">
+    <p class="h3">Name: {{ university.name }}</p>
+    <p class="h3">Location: {{ university.location }}</p>
+    <p class="h3">Description: {{ university.desc }}</p>
+    <p class="h3">Number of Students: {{ university.num_students }}</p>
+    <br>
+    <a href="{% url 'events:editUniversity' university.pk %}" class="btn btn-lg btn-secondary">Edit</a>
+</div>
+{% endblock%}
