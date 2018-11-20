@@ -7,22 +7,10 @@
 {% block body %}
 <h1 class="display-3 text-center">Register</h1>
 <br><br>
-<div class="container-fluid text-center">
+<div class="container text-center">
     <form action="{% url 'events:register' %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <!-- {{ form.non_field_errors }} -->
-        <!-- {% for field in form %}
-            <div class="fieldWrapper">
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.help_text %}
-                    {{ field.help_text }}
-                {% endif %}
-                {{ field.errors}}
-            </div>
-        {% endfor %} -->
-
         <button class="cover btn btn-lg btn-secondary col-auto" type="submit">Submit</button>
         <a href="{% url 'events:welcome' %}" class="cover btn btn-lg btn-secondary col-auto">Back</a>
     </form>

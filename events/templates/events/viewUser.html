@@ -15,5 +15,7 @@
     {% for rso in user.rsos.all %}
         <p class="h4">{{ rso }}</p>
     {% endfor %}
+    <br>
+    <a href="{% url 'events:editUser' user.pk %}" class="btn btn-lg btn-secondary">Edit</a>
 </div>
 {% endblock%}

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 # Create your models here.
 class University(models.Model):
@@ -23,13 +23,16 @@ class User(AbstractUser):
     )
     
     university = models.ForeignKey(University, on_delete=models.CASCADE, default='', null=True, blank=True)
-    rsos = models.ManyToManyField('RSO')
+    rsos = models.ManyToManyField('RSO', blank=True)
     name = models.CharField(max_length=20)
     email = models.EmailField()
     perm_level = models.CharField(max_length=10, choices=PERM_LEVELS, null=True)
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('events:viewUser', kwargs={'pk': self.pk})
 
 class RSO(models.Model):
     name = models.CharField(max_length=20)

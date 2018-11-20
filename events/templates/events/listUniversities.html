@@ -6,7 +6,7 @@
 
 {% block body %}
 <h1 class="display-3 text-center">Universities</h1>
-<br><br><br>
+<br>
 <ul class="text-center list-unstyled">
     <a class="btn btn-lg btn-secondary" href="{% url 'events:addUniversity' %}">Add a University</a>
     {% for university in object_list %}

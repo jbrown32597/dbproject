@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
+from django import forms
 from .forms import MyUserCreationForm
 from .models import University, User
 
@@ -30,6 +31,12 @@ class HomeView(LoginRequiredMixin, TemplateView):
 class ViewUser(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'events/viewUser.html'
+
+class EditUser(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'events/editUser.html'
+    fields = ['name', 'university', 'email', 'rsos']
+    # success_url = reverse_lazy('events:viewUser')
 
 class UniversityList(LoginRequiredMixin, ListView):
     model = University
