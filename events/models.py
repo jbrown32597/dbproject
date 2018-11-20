@@ -39,6 +39,7 @@ class RSO(models.Model):
     num_students = models.IntegerField()
     university = models.ForeignKey(University, on_delete=models.CASCADE, default='')
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -91,8 +92,13 @@ class Comment(models.Model):
     )
     
     text = models.TextField()
-    time = models.DateTimeField()
     rating = models.IntegerField(choices=RATINGS)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.text
+
+    def get_absolute_url(self):
+        return reverse('events:home')

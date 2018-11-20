@@ -6,8 +6,8 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from django import forms
-from .forms import MyUserCreationForm, AddEventForm
-from .models import University, User, Event, RSO
+from .forms import MyUserCreationForm, AddEventForm, AddCommentForm
+from .models import University, User, Event, RSO, Comment
 
 # Create your views here.
 class WelcomeView(TemplateView):
@@ -83,6 +83,35 @@ class EditEvent(UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         return self.request.user.is_authenticated and (self.request.user.perm_level == 'Admin' or self.request.user.perm_level == 'Superadmin')
+
+class AddComment(LoginRequiredMixin, CreateView):
+    model = Comment
+    template_name = 'events/addComment.html'
+    form_class = AddCommentForm
+
+    def get_form_kwargs(self):
+        kwargs = {'initial': self.get_initial()}
+        if self.request.method in ('POST', 'PUT'):
+            kwargs.update({
+                'data': self.request.POST,
+                'files': self.request.FILES,
+                'request': self.request
+            })
+        return kwargs
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['pk'] = self.request.GET.get('pk', None)
+    #     # print(self.request.GET.get('pk', None))
+    #     return context
+
+class EditComment(UserPassesTestMixin, UpdateView):
+    model = Comment
+    template_name = 'events/editComment.html'
+    fields = ['text', 'rating']
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user == self.get_object().created_by
 
 class RSOList(LoginRequiredMixin, ListView):
     model = RSO

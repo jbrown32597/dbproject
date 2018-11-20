@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Add Comment</title>
+<title>Edit Comment</title>
 {% endblock %}
 
 {% block body %}
-<h1 class="display-3 text-center">Add Comment</h1>
+<h1 class="display-3 text-center">Edit Comment</h1>
 <br>
-<div class="container-fluid text-center">
-    <form action="{% url 'events:addComment' %}" method="POST">
+<div class="container text-center">
+    <form action="{% url 'events:editComment' comment.pk %}" method="POST">
         {% csrf_token %}
-        {{ form.non_field_errors }}
         {% for field in form %}
             <div class="fieldWrapper">
                 {{ field.label_tag }}
@@ -22,8 +21,7 @@
             </div>
         {% endfor %}
         <button type="submit" class="btn btn-lg btn-secondary">Submit</button>
-        <a href="{% url 'events:home' %}" class="btn btn-lg btn-secondary">Back</a>
+        <a href="{% url 'events:viewEvent' comment.event.pk %}" class="btn btn-lg btn-secondary">Back</a>
     </form>
-    <br>
 </div>
 {% endblock %}

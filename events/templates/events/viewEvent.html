@@ -7,18 +7,31 @@
 {% block body %}
 <h1 class="display-3 text-center">Event Information</h1>
 <br><br><br>
-<div class="container-fluid text-center col-auto">
-    <p class="h3">Name: {{ event.name }}</p>
-    <p class="h3">Time: {{ event.time }}</p>
-    <p class="h3">Location: {{ event.location }}</p>
-    <p class="h3">Host: {{ event.host }}</p>
-    <p class="h3">Category: {{ event.category }}</p>
-    <p class="h3">Description: {{ event.desc }}</p>
-    <p class="h3">Contact Phone: {{ event.contact_phone }}</p>
-    <p class="h3">Contact Email: {{ event.contact_email }}</p>
-    <p class="h3">Host RSO: {{ event.host_rso }}</p>
-    <p class="h3">Event Type: {{ event.event_type }}</p>
-    <br>
-    <a href="{% url 'events:editEvent' event.pk %}" class="btn btn-lg btn-secondary">Edit</a>
+<div class="row container-fluid text-center">
+    <div class="container-fluid text-center col-auto">
+        <p class="h3">Name: {{ event.name }}</p>
+        <p class="h3">Time: {{ event.time }}</p>
+        <p class="h3">Location: {{ event.location }}</p>
+        <p class="h3">Host: {{ event.host }}</p>
+        <p class="h3">Category: {{ event.category }}</p>
+        <p class="h3">Description: {{ event.desc }}</p>
+        <p class="h3">Contact Phone: {{ event.contact_phone }}</p>
+        <p class="h3">Contact Email: {{ event.contact_email }}</p>
+        <p class="h3">Host RSO: {{ event.host_rso }}</p>
+        <p class="h3">Event Type: {{ event.event_type }}</p>
+        <a href="{% url 'events:editEvent' event.pk %}" class="btn btn-lg btn-secondary">Edit</a>
+    </div>
+    <div class="container-fluid text-center col-auto">
+        <p class="h3">Comments:</p>
+        {% for comment in event.comment_set.all %}
+            <p class="h5">{{ comment}}</p>
+            <p class="h5">- With rating: {{ comment.rating }}</p>
+            <p class="h5">- Commenter: {{ comment.created_by }}</p>
+            <a href="{% url 'events:editComment' comment.pk %}" class="btn btn-lg btn-secondary">Edit This Comment</a>
+            <br>
+        {% endfor %}
+        <br>
+        <a href="{% url 'events:addComment' %}" class="btn btn-lg btn-secondary">Add Comment</a>
+    </div>
 </div>
 {% endblock%}
