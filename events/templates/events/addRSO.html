@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add RSO</title>
+{% endblock %}
+
+{% block body %}
+<h1 class="display-3 text-center">Add RSO</h1>
+<br>
+<div class="container-fluid text-center">
+    <form action="{% url 'events:addRSO' %}" method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    {{ field.help_text }}
+                {% endif %}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-lg btn-secondary">Submit</button>
+        <a href="{% url 'events:RSOs' %}" class="btn btn-lg btn-secondary">Back</a>
+    </form>
+    <br>
+</div>
+{% endblock %}

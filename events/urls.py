@@ -18,4 +18,8 @@ urlpatterns = [
     path('addEvent/', views.AddEvent.as_view(), name='addEvent'),
     path('viewEvent/<int:pk>/', views.ViewEvent.as_view(), name='viewEvent'),
     path('editEvent/<int:pk>/', views.EditEvent.as_view(), name='editEvent'),
+    path('RSOs/', views.RSOList.as_view(), name='RSOs'),
+    path('addRSO/', views.AddRSO.as_view(), name='addRSO'),
+    path('viewRSO/<int:pk>/', views.ViewRSO.as_view(), name='viewRSO'),
+    path('editRSO/<int:pk>/', views.EditRSO.as_view(), name='editRSO'),
 ]

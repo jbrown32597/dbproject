@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>RSO List</title>
+{% endblock %}
+
+{% block body %}
+<h1 class="display-3 text-center">RSOs</h1>
+<br>
+<ul class="container-fluid text-center">
+    <a class="btn btn-lg btn-secondary" href="{% url 'events:addRSO' %}">Add an RSO</a>
+    {% for rso in object_list %}
+        <li><a href="{% url 'events:viewRSO' rso.pk %}">{{ rso.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

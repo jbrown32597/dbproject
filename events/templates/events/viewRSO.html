@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>RSO Profile</title>
+{% endblock %}
+
+{% block body %}
+<h1 class="display-3 text-center">RSO Information</h1>
+<br><br><br>
+<div class="container-fluid text-center col-auto">
+    <p class="h3">Name: {{ rso.name }}</p>
+    <p class="h3">Number of Students: {{ rso.num_students }}</p>
+    <p class="h3">University: {{ rso.university }}</p>
+    <p class="h3">Admin: {{ rso.admin }}</p>
+    <br>
+    <a href="{% url 'events:editRSO' rso.pk %}" class="btn btn-lg btn-secondary">Edit</a>
+</div>
+{% endblock%}

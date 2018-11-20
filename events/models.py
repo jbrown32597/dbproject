@@ -35,13 +35,16 @@ class User(AbstractUser):
         return reverse('events:viewUser', kwargs={'pk': self.pk})
 
 class RSO(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     num_students = models.IntegerField()
     university = models.ForeignKey(University, on_delete=models.CASCADE, default='')
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('events:viewRSO', kwargs={'pk': self.pk})
 
 class Event(models.Model):
     CATEGORIES = (

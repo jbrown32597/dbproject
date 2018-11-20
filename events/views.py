@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -7,7 +7,7 @@ from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteVi
 from django.shortcuts import render, redirect
 from django import forms
 from .forms import MyUserCreationForm, AddEventForm
-from .models import University, User, Event
+from .models import University, User, Event, RSO
 
 # Create your views here.
 class WelcomeView(TemplateView):
@@ -28,6 +28,8 @@ class RegistrationView(FormView):
 class HomeView(LoginRequiredMixin, ListView):
     model = Event
     template_name = 'events/home.html'
+
+    
 
 class ViewUser(LoginRequiredMixin, DetailView):
     model = User
@@ -78,6 +80,30 @@ class EditEvent(UserPassesTestMixin, UpdateView):
     model = Event
     template_name = 'events/editEvent.html'
     fields = ['host', 'time', 'location', 'name', 'category', 'desc', 'contact_phone', 'contact_email', 'host_rso', 'event_type']
+
+    def test_func(self):
+        return self.request.user.is_authenticated and (self.request.user.perm_level == 'Admin' or self.request.user.perm_level == 'Superadmin')
+
+class RSOList(LoginRequiredMixin, ListView):
+    model = RSO
+    template_name = 'events/listRSOs.html'
+
+class AddRSO(UserPassesTestMixin, CreateView):
+    model = RSO
+    template_name = 'events/addRSO.html'
+    fields = ['name', 'num_students', 'university', 'admin']
+
+    def test_func(self):
+        return self.request.user.is_authenticated and (self.request.user.perm_level == 'Admin' or self.request.user.perm_level == 'Superadmin')
+
+class ViewRSO(LoginRequiredMixin, DetailView):
+    model = RSO
+    template_name = 'events/viewRSO.html'
+
+class EditRSO(UserPassesTestMixin, UpdateView):
+    model = RSO
+    template_name = 'events/editRSO.html'
+    fields = ['name', 'num_students', 'university', 'admin']
 
     def test_func(self):
         return self.request.user.is_authenticated and (self.request.user.perm_level == 'Admin' or self.request.user.perm_level == 'Superadmin')
