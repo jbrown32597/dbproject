@@ -111,6 +111,14 @@ class EditComment(UserPassesTestMixin, UpdateView):
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user == self.get_object().created_by
 
+class DeleteComment(UserPassesTestMixin, DeleteView):
+    model = Comment
+    template_name = 'events/deleteComment.html'
+    success_url = reverse_lazy('events:home')
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user == self.get_object().created_by
+
 class RSOList(LoginRequiredMixin, ListView):
     model = RSO
     template_name = 'events/listRSOs.html'
