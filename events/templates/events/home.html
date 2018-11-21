@@ -8,7 +8,9 @@
 <h1 class="display-3 text-center">Events</h1>
 <br>
 <ul class="container-fluid text-center">
-    <a class="btn btn-lg btn-secondary" href="{% url 'events:addEvent' %}">Add an Event</a>
+    {% if request.user.perm_level != 'Student' %}
+        <a class="btn btn-lg btn-secondary" href="{% url 'events:addEvent' %}">Add an Event</a>
+    {% endif %}
     {% for event in object_list %}
         <li><a class="mx-auto" href="{% url 'events:viewEvent' event.pk %}">{{ event.name }}</a></li>
     {% endfor %}
