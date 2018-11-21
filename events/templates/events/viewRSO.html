@@ -13,6 +13,8 @@
     <p class="h3">University: {{ rso.university }}</p>
     <p class="h3">Admin: {{ rso.admin }}</p>
     <br>
-    <a href="{% url 'events:editRSO' rso.pk %}" class="btn btn-lg btn-secondary">Edit</a>
+    {% if request.user.pk == rso.admin.pk %}
+        <a href="{% url 'events:editRSO' rso.pk %}" class="btn btn-lg btn-secondary">Edit</a>
+    {% endif %}
 </div>
 {% endblock%}

@@ -30,7 +30,7 @@ class AddEventForm(forms.ModelForm):
     
     class Meta:
         model = Event
-        fields = ['host', 'time', 'location', 'name', 'category', 'desc', 'contact_phone', 'contact_email', 'host_rso', 'event_type']
+        fields = ['host', 'time', 'location', 'university', 'name', 'category', 'desc', 'contact_phone', 'contact_email', 'host_rso', 'event_type']
 
 class AddCommentForm(forms.ModelForm):
     

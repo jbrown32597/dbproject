@@ -64,6 +64,7 @@ class Event(models.Model):
     host = models.ForeignKey(User, on_delete=models.CASCADE, related_name='host')
     time = models.DateTimeField()
     location = models.CharField(max_length=100)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=20)
     category = models.CharField(max_length=15, choices=CATEGORIES)
     desc = models.TextField()

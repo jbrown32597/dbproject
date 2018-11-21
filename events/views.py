@@ -77,10 +77,10 @@ class ViewEvent(LoginRequiredMixin, DetailView):
 class EditEvent(UserPassesTestMixin, UpdateView):
     model = Event
     template_name = 'events/editEvent.html'
-    fields = ['host', 'time', 'location', 'name', 'category', 'desc', 'contact_phone', 'contact_email', 'host_rso', 'event_type']
+    fields = ['host', 'time', 'location', 'university', 'name', 'category', 'desc', 'contact_phone', 'contact_email', 'host_rso', 'event_type']
 
     def test_func(self):
-        return self.request.user.is_authenticated and (self.request.user.perm_level == 'Admin' or self.request.user.perm_level == 'Superadmin')
+        return self.request.user.is_authenticated and self.request.user == self.get_object().host
 
 class AddComment(LoginRequiredMixin, CreateView):
     model = Comment
@@ -109,7 +109,7 @@ class EditComment(UserPassesTestMixin, UpdateView):
     fields = ['text', 'rating']
 
     def test_func(self):
-        return self.request.user.is_authenticated and self.request.user == self.get_object().created_by
+        return self.request.user.is_authenticated and self.request.user.pk == self.get_object().created_by.pk
 
 class DeleteComment(UserPassesTestMixin, DeleteView):
     model = Comment
@@ -117,7 +117,7 @@ class DeleteComment(UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('events:home')
 
     def test_func(self):
-        return self.request.user.is_authenticated and self.request.user == self.get_object().created_by
+        return self.request.user.is_authenticated and self.request.user.pk == self.get_object().created_by.pk
 
 class RSOList(LoginRequiredMixin, ListView):
     model = RSO
@@ -141,4 +141,4 @@ class EditRSO(UserPassesTestMixin, UpdateView):
     fields = ['name', 'num_students', 'university', 'admin']
 
     def test_func(self):
-        return self.request.user.is_authenticated and (self.request.user.perm_level == 'Admin' or self.request.user.perm_level == 'Superadmin')
+        return self.request.user.is_authenticated and self.request.user.pk == self.get_object().admin.pk

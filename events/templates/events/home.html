@@ -11,8 +11,27 @@
     {% if request.user.perm_level != 'Student' %}
         <a class="btn btn-lg btn-secondary" href="{% url 'events:addEvent' %}">Add an Event</a>
     {% endif %}
+    <br><br>
+    <h2 class="display-5 text-center">Public Events:</h2>
     {% for event in object_list %}
-        <li><a class="mx-auto" href="{% url 'events:viewEvent' event.pk %}">{{ event.name }}</a></li>
+        {% if event.event_type == 'Public' %}
+            <li><a class="mx-auto" href="{% url 'events:viewEvent' event.pk %}">{{ event.name }}</a></li>
+        {% endif %}
     {% endfor %}
+    <br>
+    <h2 class="display-5 text-center">RSO Events:</h2>
+    {% for event in object_list %}
+        {% if event.event_type == 'RSO' and event.host_rso in request.user.rsos.all %}
+            <li><a class="mx-auto" href="{% url 'events:viewEvent' event.pk %}">{{ event.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+    <br>
+    <h2 class="display-5 text-center">Private Events:</h2>
+    {% for event in object_list %}
+        {% if event.event_type == 'Private' and event.university.pk == request.user.university.pk %}
+            <li><a class="mx-auto" href="{% url 'events:viewEvent' event.pk %}">{{ event.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+    <br>
 </ul>
 {% endblock %}
