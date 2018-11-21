@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from django import forms
-from .forms import MyUserCreationForm, AddEventForm, AddCommentForm
+from .forms import MyUserCreationForm, EditUserForm, AddEventForm, AddCommentForm
 from .models import University, User, Event, RSO, Comment
 
 # Create your views here.
@@ -29,8 +29,6 @@ class HomeView(LoginRequiredMixin, ListView):
     model = Event
     template_name = 'events/home.html'
 
-    
-
 class ViewUser(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'events/viewUser.html'
@@ -38,7 +36,7 @@ class ViewUser(LoginRequiredMixin, DetailView):
 class EditUser(LoginRequiredMixin, UpdateView):
     model = User
     template_name = 'events/editUser.html'
-    fields = ['name', 'university', 'email', 'rsos']
+    form_class = EditUserForm
 
 class UniversityList(LoginRequiredMixin, ListView):
     model = University

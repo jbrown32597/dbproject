@@ -101,4 +101,4 @@ class Comment(models.Model):
         return self.text
 
     def get_absolute_url(self):
-        return reverse('events:home')
+        return reverse('events:viewEvent', kwargs={'pk': self.event.pk})

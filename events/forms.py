@@ -13,12 +13,17 @@ class MyUserCreationForm(UserCreationForm):
     email = forms.EmailField()
     perm_level = forms.ChoiceField(choices=PERM_LEVELS)
     university = forms.ModelChoiceField(queryset=University.objects.all(), to_field_name='name', empty_label=None, required=False)
-    rsos = forms.ModelMultipleChoiceField(queryset=RSO.objects.all(), to_field_name='name', required=False)
-
 
     class Meta:
         model = User
         fields = UserCreationForm.Meta.fields + ('name', 'email', 'perm_level', 'university',)
+
+class EditUserForm(forms.ModelForm):
+    rsos = forms.ModelMultipleChoiceField(queryset=RSO.objects.all(), to_field_name='name', required=False, widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = User
+        fields = ['name', 'email', 'university', 'rsos']
 
 class AddEventForm(forms.ModelForm):
     time = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}), required=True, input_formats=['%Y-%m-%dT%H:%M',])
