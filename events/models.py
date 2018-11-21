@@ -8,6 +8,7 @@ class University(models.Model):
     location = models.CharField(max_length=100)
     desc = models.TextField()
     num_students = models.IntegerField()
+    superadmin = models.ForeignKey('User', on_delete=models.CASCADE, default='', related_name='superadmin')
 
     def __str__(self):
         return self.name

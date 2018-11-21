@@ -12,6 +12,7 @@
     <p class="h3">Location: {{ university.location }}</p>
     <p class="h3">Description: {{ university.desc }}</p>
     <p class="h3">Number of Students: {{ university.num_students }}</p>
+    <p class="h3">Superadmin: {{ university.superadmin }}</p>
     <br>
     <a href="{% url 'events:editUniversity' university.pk %}" class="btn btn-lg btn-secondary">Edit</a>
 </div>

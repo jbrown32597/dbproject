@@ -50,6 +50,10 @@ class AddUniversity(UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.perm_level == 'Superadmin'
 
+    def form_valid(self, form):
+        form.instance.superadmin = self.request.user
+        return super().form_valid(form)
+
 class ViewUniversity(LoginRequiredMixin, DetailView):
     model = University
     template_name = 'events/viewUniversity.html'
@@ -60,7 +64,7 @@ class EditUniversity(UserPassesTestMixin, UpdateView):
     fields = ['name', 'location', 'desc', 'num_students']
 
     def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.perm_level == 'Superadmin'
+        return self.request.user.is_authenticated and self.request.user.pk == self.get_object().superadmin.pk
 
 class AddEvent(UserPassesTestMixin, CreateView):
     model = Event
@@ -80,28 +84,32 @@ class EditEvent(UserPassesTestMixin, UpdateView):
     fields = ['host', 'time', 'location', 'university', 'name', 'category', 'desc', 'contact_phone', 'contact_email', 'host_rso', 'event_type']
 
     def test_func(self):
-        return self.request.user.is_authenticated and self.request.user == self.get_object().host
+        return self.request.user.is_authenticated and self.request.user.pk == self.get_object().host.pk
 
 class AddComment(LoginRequiredMixin, CreateView):
     model = Comment
     template_name = 'events/addComment.html'
     form_class = AddCommentForm
 
-    def get_form_kwargs(self):
-        kwargs = {'initial': self.get_initial()}
-        if self.request.method in ('POST', 'PUT'):
-            kwargs.update({
-                'data': self.request.POST,
-                'files': self.request.FILES,
-                'request': self.request
-            })
-        return kwargs
+    # def get_form_kwargs(self):
+    #     kwargs = {'initial': self.get_initial()}
+    #     if self.request.method in ('POST', 'PUT'):
+    #         kwargs.update({
+    #             'data': self.request.POST,
+    #             'files': self.request.FILES,
+    #             'request': self.request
+    #         })
+    #     return kwargs
     
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['pk'] = self.request.GET.get('pk', None)
     #     # print(self.request.GET.get('pk', None))
     #     return context
+    
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
 
 class EditComment(UserPassesTestMixin, UpdateView):
     model = Comment
