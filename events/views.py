@@ -73,6 +73,10 @@ class AddEvent(UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.is_authenticated and (self.request.user.perm_level == 'Admin' or self.request.user.perm_level == 'Superadmin')
+    
+    def form_valid(self, form):
+        form.instance.host = self.request.user
+        return super().form_valid(form)
 
 class ViewEvent(LoginRequiredMixin, DetailView):
     model = Event

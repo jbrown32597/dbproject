@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse, reverse_lazy
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class University(models.Model):
@@ -87,6 +89,10 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         return reverse('events:viewEvent', kwargs={'pk': self.pk})
+    
+    def clean(self):
+        if self.host != self.host_rso.admin:
+            raise ValidationError(_('You are not the admin of this RSO, so you are not allowed to create an event for it.'))
 
     class Meta:
         unique_together = ('time', 'location')
