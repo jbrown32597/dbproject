@@ -47,6 +47,13 @@ class RSO(models.Model):
 
     def get_absolute_url(self):
         return reverse('events:viewRSO', kwargs={'pk': self.pk})
+    
+    def save(self, *args, **kwargs):
+        if self.num_students > 4:
+            self.is_active = True
+        else:
+            self.is_active = False
+        super().save(*args, **kwargs)
 
 class Event(models.Model):
     CATEGORIES = (

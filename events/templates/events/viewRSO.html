@@ -12,6 +12,7 @@
     <p class="h3">Number of Students: {{ rso.num_students }}</p>
     <p class="h3">University: {{ rso.university }}</p>
     <p class="h3">Admin: {{ rso.admin }}</p>
+    <p class="h3">Active? {{ rso.is_active }}</p>
     <br>
     {% if request.user.pk == rso.admin.pk %}
         <a href="{% url 'events:editRSO' rso.pk %}" class="btn btn-lg btn-secondary">Edit</a>
