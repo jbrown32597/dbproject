@@ -91,7 +91,7 @@ class Event(models.Model):
         return reverse('events:viewEvent', kwargs={'pk': self.pk})
     
     def clean(self):
-        if self.host != self.host_rso.admin:
+        if self.host_rso is not None and self.host != self.host_rso.admin:
             raise ValidationError(_('You are not the admin of this RSO, so you are not allowed to create an event for it.'))
 
     class Meta:
